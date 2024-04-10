@@ -1,0 +1,33 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    restart: always
+    hostname: gitlab.dev.com # Set your hostname
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.dev.com' # Set your GitLab URL
+        gitlab_rails['gitlab_shell_ssh_port'] = 22
+        registry_external_url 'http://gitlab.dev.com:5050'
+        registry_nginx['enable'] = true
+        registry_nginx['listen_port'] = 5050
+        registry_nginx['redirect_http_to_https'] = false
+        registry_nginx['ssl_certificate'] = "/etc/gitlab/ssl/registry.gitlab.dev.com.crt"
+        registry_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/registry.gitlab.dev.com.com.key"
+      GITLAB_ROOT_PASSWORD: "P@ssw0rd"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "22:22"
+      - "5050:5050"
+    volumes:
+      - /srv/gitlab/config:/etc/gitlab
+      - /srv/gitlab/logs:/var/log/gitlab
+      - /srv/gitlab/data:/var/opt/gitlab
+    shm_size: '256m'
+  # gitlab-runner:
+  #   image: gitlab/gitlab-runner:latest
+  #   restart: always
+  #   volumes:
+  #     - /srv/gitlab/runner/config:/etc/gitlab-runner
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: ["run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner"]
