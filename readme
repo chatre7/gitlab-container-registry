@@ -6,3 +6,5 @@ docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 https://blog.pjjop.org/ci-cd-pipeline-with-gitlab-server-for-devops-team/
 
 https://www.codium.co/blogs/33-CICD
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-on-ubuntu
